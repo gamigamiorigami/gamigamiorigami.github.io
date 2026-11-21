@@ -2,99 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Get GamiGami Origami</title>
-  <meta name="description" content="Fold real origami, one slice at a time. Get GamiGami Origami (がみがみ折り紙) for iPhone, iPad and Android." />
-  <!-- Link previews (Messages, LINE, X…) -->
-  <meta property="og:title" content="GamiGami Origami · がみがみ折り紙" />
-  <meta property="og:description" content="Fold real origami, one slice at a time, with a fussy thousand-year-old paper crane for a teacher." />
-  <meta property="og:image" content="https://gamigamiorigami.github.io/icon.png" />
-  <meta property="og:url" content="https://gamigamiorigami.github.io/get/" />
-  <meta name="twitter:card" content="summary" />
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="../style.css" />
-  <script>
-    /*
-     * Where each store's button goes. Set `live: true` once that store's listing is published:
-     * phones on that platform are then sent straight to it (add ?stay to the URL to see the page).
-     * While a store isn't live, its button shows "Coming soon", or goes to `beta` (TestFlight's
-     * public link / the Play testing opt-in link) when one is set.
-     */
-    const STORES = {
-      ios: {
-        url: 'https://apps.apple.com/app/id6831973641',
-        live: false,
-        beta: '', // e.g. 'https://testflight.apple.com/join/XXXXXXXX'
-      },
-      android: {
-        url: 'https://play.google.com/store/apps/details?id=com.tomoliphant.gamigamiorigami',
-        live: false,
-        beta: '', // e.g. 'https://play.google.com/apps/testing/com.tomoliphant.gamigamiorigami'
-      },
-    };
-
-    const ua = navigator.userAgent;
-    // iPadOS reports itself as a Mac: tell them apart by touch.
-    const platform = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
-      ? 'ios'
-      : /Android/.test(ua) ? 'android' : 'other';
-    const stay = new URLSearchParams(location.search).has('stay');
-    if (platform !== 'other' && STORES[platform].live && !stay) location.replace(STORES[platform].url);
-  </script>
-  <style>
-    .get { text-align: center; padding-top: 32px; }
-    .get .icon { width: 128px; height: 128px; border-radius: 28px; box-shadow: 0 8px 24px rgba(80, 40, 120, 0.25); }
-    .get h1 { margin-top: 0.4em; }
-    .get .ja { display: block; font-size: 1.15rem; color: var(--soft); }
-    .get .pitch { max-width: 30em; margin: 0 auto; }
-    .stores { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 28px 0 12px; }
-    .store {
-      display: flex; align-items: center; gap: 12px;
-      width: min(320px, 100%); padding: 12px 20px;
-      border-radius: 18px; text-decoration: none;
-      background: #1d1626; color: #fff; text-align: left;
-      box-shadow: 0 6px 0 #000a;
-    }
-    .store .glyph { font-size: 2rem; line-height: 1; width: 2.2rem; text-align: center; }
-    .store small { display: block; font-size: 0.8rem; opacity: 0.8; }
-    .store b { font-size: 1.25rem; }
-    .store.soon { background: var(--card); color: var(--soft); border: 2px dashed var(--line); box-shadow: none; pointer-events: none; }
-    .store.yours { outline: 4px solid var(--accent); outline-offset: 3px; }
-    .fine { color: var(--soft); font-size: 0.9rem; }
-  </style>
+  <!-- Snapshots shared from older builds link here: the store links now live on the home page. -->
+  <title>GamiGami Origami</title>
+  <link rel="canonical" href="https://gamigamiorigami.github.io/" />
+  <meta http-equiv="refresh" content="0; url=../" />
+  <script>location.replace('../');</script>
 </head>
-<body>
-  <main class="get">
-    <img class="icon" src="../icon.png" alt="" width="128" height="128" />
-    <h1>GamiGami Origami <span class="ja" lang="ja">がみがみ折り紙</span></h1>
-    <p class="pitch">Fold real origami, one slice at a time. Your own creases shape the model, flaws and all, and a fussy thousand-year-old paper crane grades every fold. For all ages.</p>
-    <p class="pitch" lang="ja">ほんものの折り紙を、ひとおりずつ。あなたの折りすじがそのまま作品になります。千さいのつる、がみがみ先生がきびしく採点！</p>
-
-    <div class="stores">
-      <a class="store" id="ios" href="#">
-        <span class="glyph">📱</span>
-        <span><small></small><b>App Store</b></span>
-      </a>
-      <a class="store" id="android" href="#">
-        <span class="glyph">▶</span>
-        <span><small></small><b>Google Play</b></span>
-      </a>
-    </div>
-    <p class="fine"><a href="../">Home</a> · <a href="../privacy.html">Privacy Policy</a> · <a href="mailto:gamigamiorigamigame@gmail.com">Contact</a></p>
-  </main>
-  <script>
-    for (const [id, store] of Object.entries(STORES)) {
-      const a = document.getElementById(id);
-      const label = a.querySelector('small');
-      const target = store.live ? store.url : store.beta;
-      if (target) a.href = target;
-      else a.classList.add('soon');
-      label.textContent = store.live
-        ? (id === 'ios' ? 'Download on the' : 'Get it on')
-        : store.beta ? 'Join the beta on' : 'Coming soon to';
-      if (id === platform) a.classList.add('yours');
-    }
-  </script>
-</body>
+<body><a href="../">GamiGami Origami</a></body>
 </html>

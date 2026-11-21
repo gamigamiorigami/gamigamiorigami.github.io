@@ -4,23 +4,128 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GamiGami Origami</title>
-  <meta name="description" content="GamiGami Origami (がみがみ折り紙): a cozy puzzle game that teaches real origami, one fold at a time." />
+  <meta name="description" content="Fold real origami, one slice at a time. Get GamiGami Origami (がみがみ折り紙) for iPhone, iPad and Android." />
+  <!-- Link previews (Messages, LINE, X…): every snapshot shared from the game links here. -->
+  <meta property="og:title" content="GamiGami Origami · がみがみ折り紙" />
+  <meta property="og:description" content="Fold real origami, one slice at a time, with a fussy thousand-year-old paper crane for a teacher." />
+  <meta property="og:image" content="https://gamigamiorigami.github.io/icon.png" />
+  <meta property="og:url" content="https://gamigamiorigami.github.io/" />
+  <meta name="twitter:card" content="summary" />
   <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    /*
+     * The game's video: set YOUTUBE_ID to the video's id (the part after watch?v=) and the
+     * placeholder becomes the embedded player.
+     */
+    const YOUTUBE_ID = '';
+
+    /*
+     * Where each store's button goes. Set `live: true` once that store's listing is published.
+     * While a store isn't live, its button shows "Coming soon", or goes to `beta` (TestFlight's
+     * public link / the Play testing opt-in link) when one is set.
+     */
+    const STORES = {
+      ios: {
+        url: 'https://apps.apple.com/app/id6831973641',
+        live: false,
+        beta: '', // e.g. 'https://testflight.apple.com/join/XXXXXXXX'
+      },
+      android: {
+        url: 'https://play.google.com/store/apps/details?id=com.tomoliphant.gamigamiorigami',
+        live: false,
+        beta: '', // e.g. 'https://play.google.com/apps/testing/com.tomoliphant.gamigamiorigami'
+      },
+    };
+
+    const ua = navigator.userAgent;
+    // iPadOS reports itself as a Mac: tell them apart by touch.
+    const platform = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
+      ? 'ios'
+      : /Android/.test(ua) ? 'android' : 'other';
+  </script>
+  <style>
+    .hero { padding-top: 32px; }
+    .hero .icon { width: 112px; height: 112px; border-radius: 24px; box-shadow: 0 8px 24px rgba(80, 40, 120, 0.25); }
+    .pitch { max-width: 30em; margin: 0 auto; }
+    .video {
+      position: relative; aspect-ratio: 16 / 9; margin: 28px auto 0; max-width: 640px;
+      border-radius: 20px; overflow: hidden; background: var(--card); border: 2px dashed var(--line);
+    }
+    .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .video .soon {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; color: var(--soft); font-weight: 700;
+    }
+    .video .soon .play {
+      width: 72px; height: 72px; border-radius: 50%; background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 2rem; padding-left: 6px;
+    }
+    .stores { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 24px 0 8px; }
+    .store {
+      display: flex; align-items: center; gap: 12px;
+      width: min(280px, 100%); padding: 12px 20px;
+      border-radius: 18px; text-decoration: none;
+      background: #1d1626; color: #fff; text-align: left;
+      box-shadow: 0 6px 0 #000a;
+    }
+    .store .glyph { font-size: 2rem; line-height: 1; width: 2.2rem; text-align: center; }
+    .store small { display: block; font-size: 0.8rem; opacity: 0.8; }
+    .store b { font-size: 1.25rem; }
+    .store.soon { background: var(--card); color: var(--soft); border: 2px dashed var(--line); box-shadow: none; pointer-events: none; }
+    .store.yours { outline: 4px solid var(--accent); outline-offset: 3px; }
+  </style>
 </head>
 <body>
   <main>
     <div class="hero">
-      <img src="icon.png" alt="" width="112" height="112" style="border-radius:24px" />
+      <img class="icon" src="icon.png" alt="" width="112" height="112" />
       <h1>GamiGami Origami <span class="ja" lang="ja">がみがみ折り紙</span></h1>
-      <p>A cozy puzzle game that teaches real origami, one fold at a time, with a fussy thousand-year-old paper crane for a teacher. For all ages.</p>
+      <p class="pitch">Fold real origami, one slice at a time. Your own creases shape the model, flaws and all, and a fussy thousand-year-old paper crane grades every fold. For all ages.</p>
+      <p class="pitch" lang="ja">ほんものの折り紙を、ひとおりずつ。あなたの折りすじがそのまま作品になります。千さいのつる、がみがみ先生がきびしく採点！</p>
     </div>
+
+    <div class="video" id="video">
+      <div class="soon"><span class="play">▶</span>Video coming soon</div>
+    </div>
+
+    <div class="stores">
+      <a class="store" id="ios" href="#">
+        <span class="glyph">📱</span>
+        <span><small></small><b>App Store</b></span>
+      </a>
+      <a class="store" id="android" href="#">
+        <span class="glyph">▶</span>
+        <span><small></small><b>Google Play</b></span>
+      </a>
+    </div>
+
     <div class="links">
-      <a href="get/">📲 Get the game</a>
       <a href="privacy.html">Privacy Policy</a>
-      <a href="privacy.html#ja" lang="ja">プライバシーポリシー</a>
       <a href="mailto:gamigamiorigamigame@gmail.com">Contact</a>
     </div>
   </main>
+  <script>
+    if (YOUTUBE_ID) {
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(YOUTUBE_ID)}?rel=0`;
+      frame.title = 'GamiGami Origami';
+      frame.allow = 'accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+      frame.allowFullscreen = true;
+      document.getElementById('video').replaceChildren(frame);
+    }
+    for (const [id, store] of Object.entries(STORES)) {
+      const a = document.getElementById(id);
+      const label = a.querySelector('small');
+      const target = store.live ? store.url : store.beta;
+      if (target) a.href = target;
+      else a.classList.add('soon');
+      label.textContent = store.live
+        ? (id === 'ios' ? 'Download on the' : 'Get it on')
+        : store.beta ? 'Join the beta on' : 'Coming soon to';
+      if (id === platform) a.classList.add('yours');
+    }
+  </script>
 </body>
 </html>

@@ -16,10 +16,13 @@
   <link rel="stylesheet" href="style.css" />
   <script>
     /*
-     * The game's video: set YOUTUBE_ID to the video's id (the part after watch?v=) and the
-     * placeholder becomes the embedded player.
+     * The game's video, in two shapes: a window taller than it is wide (phones held upright)
+     * gets the vertical one, any other the horizontal one, swapped live when the window turns.
+     * Set each to its YouTube id (the part after watch?v= or shorts/); with only one set, it
+     * plays everywhere. Until then the placeholder shows, in the matching shape.
      */
-    const YOUTUBE_ID = '';
+    const YOUTUBE_WIDE = ''; // 16:9
+    const YOUTUBE_TALL = ''; // 9:16
 
     /*
      * Where each store's button goes. Set `live: true` once that store's listing is published.
@@ -53,6 +56,8 @@
       position: relative; aspect-ratio: 16 / 9; margin: 28px auto 0; max-width: 640px;
       border-radius: 20px; overflow: hidden; background: var(--card); border: 2px dashed var(--line);
     }
+    /* Vertical: never taller than ~3/4 of the screen, so the store buttons peek in below it. */
+    .video.tall { aspect-ratio: 9 / 16; width: min(100%, calc(75svh * 9 / 16)); }
     .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .video .soon {
       position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -107,14 +112,27 @@
     </div>
   </main>
   <script>
-    if (YOUTUBE_ID) {
+    const video = document.getElementById('video');
+    const placeholder = video.firstElementChild;
+    const portrait = matchMedia('(orientation: portrait)');
+    let shown; // the id playing now ('' = the placeholder), so a turn only reloads on a real swap
+    function showVideo() {
+      const tall = portrait.matches;
+      const id = (tall ? YOUTUBE_TALL || YOUTUBE_WIDE : YOUTUBE_WIDE || YOUTUBE_TALL);
+      // The box takes the shape of the video actually shown.
+      video.classList.toggle('tall', id ? id === YOUTUBE_TALL && id !== YOUTUBE_WIDE : tall);
+      if (id === shown) return;
+      shown = id;
+      if (!id) return video.replaceChildren(placeholder);
       const frame = document.createElement('iframe');
-      frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(YOUTUBE_ID)}?rel=0`;
+      frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?rel=0&playsinline=1`;
       frame.title = 'GamiGami Origami';
       frame.allow = 'accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen';
       frame.allowFullscreen = true;
-      document.getElementById('video').replaceChildren(frame);
+      video.replaceChildren(frame);
     }
+    showVideo();
+    portrait.addEventListener('change', showVideo);
     for (const [id, store] of Object.entries(STORES)) {
       const a = document.getElementById(id);
       const label = a.querySelector('small');

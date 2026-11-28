@@ -1,0 +1,5 @@
+{
+  "ios": { "enabled": true },
+  "android": { "enabled": true },
+  "web": { "enabled": false }
+}
